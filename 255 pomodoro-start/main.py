@@ -26,10 +26,13 @@ def start_timer():
     long_break_sec = LONG_BREAK_MIN * 60
 
     if reps % 8 == 0:
+        app_title.config(text='Break', fg=RED)
         count_down(long_break_sec)
     elif reps % 2 == 0:
+        app_title.config(text='Break', fg=PINK)
         count_down(short_break_sec)
     else:
+        app_title.config(text='Work', fg=GREEN)
         count_down(work_sec)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
