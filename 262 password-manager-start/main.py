@@ -1,15 +1,38 @@
 from tkinter import *
+from tkinter import messagebox
+
 FONT_NAME = "Times New Roman"
 ENTRY_WIDTH = 52
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
+
+def save():
+    website = website_entry.get()
+    username = username_entry.get()
+    password = password_entry.get()
+
+    if len(website) < 1 or len(username) < 1 or len(password) < 1:
+        messagebox.showinfo(title='Oops!', message='Make sure no field is empty')
+    else:
+        is_ok = messagebox.askokcancel(title=website, message=f'These are the details \n'
+                                                              f'Email: {username} \n Password: {password} \n'
+                                                              f'Are these information accurate?')
+
+        if is_ok:
+            with open('data.txt', 'a') as data_file:
+                data_file.write(f'{website} | {username} | {password}\n')
+                website_entry.delete(0, END)
+                username_entry.delete(0, END)
+                password_entry.delete(0, END)
+
 # ---------------------------- UI SETUP ------------------------------- #
+
 
 window = Tk()
 window.title('Password Manager')
-window.config(pady=20, padx=20)
+window.config(pady=50, padx=50)
 
 canvas = Canvas(width=200, height=200, highlightthickness=0)
 password_img = PhotoImage(file='logo.png')
@@ -21,6 +44,7 @@ website_label.grid(column=0, row=1)
 
 website_entry = Entry(width=ENTRY_WIDTH)
 website_entry.grid(column=1, row=1, columnspan=2)
+website_entry.focus()
 
 username_label = Label(text='Email/Username:', font=(FONT_NAME, 15))
 username_label.grid(column=0, row=2)
@@ -34,10 +58,10 @@ password_label.grid(column=0, row=3)
 password_entry = Entry(width=33)
 password_entry.grid(column=1, row=3)
 
-password_gen_button = Button(text='Generate Password')
+password_gen_button = Button(text='Generate Password', highlightthickness=0)
 password_gen_button.grid(column=2, row=3)
 
-add_button = Button(text='Add', width=44)
+add_button = Button(text='Add', width=44, highlightthickness=0, command=save)
 add_button.grid(column=1, row=4, columnspan=2)
 
 window.mainloop()
