@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint, shuffle, choice
+import pyperclip
 
 FONT_NAME = "Times New Roman"
 ENTRY_WIDTH = 52
@@ -21,6 +22,7 @@ def generate_password():
 
     password = "".join(password_list)
     password_entry.insert(0, password)
+    pyperclip.copy(password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 
@@ -66,6 +68,7 @@ username_label = Label(text='Email/Username:', font=(FONT_NAME, 15))
 username_label.grid(column=0, row=2)
 
 username_entry = Entry(width=ENTRY_WIDTH)
+username_entry.insert(0, "oluwaa@mail.com")
 username_entry.grid(column=1, row=2, columnspan=2)
 
 password_label = Label(text='Password:', font=(FONT_NAME, 15))
