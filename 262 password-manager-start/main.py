@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, shuffle, choice
 import pyperclip
+import json
 
 FONT_NAME = "Times New Roman"
 ENTRY_WIDTH = 52
@@ -34,16 +35,26 @@ def save():
     if len(website) < 1 or len(username) < 1 or len(password) < 1:
         messagebox.showinfo(title='Oops!', message='Make sure no field is empty')
     else:
-        is_ok = messagebox.askokcancel(title=website, message=f'These are the details \n'
-                                                              f'Email: {username} \n Password: {password} \n'
-                                                              f'Are these information accurate?')
-
-        if is_ok:
-            with open('data.txt', 'a') as data_file:
-                data_file.write(f'{website} | {username} | {password}\n')
-                website_entry.delete(0, END)
-                username_entry.delete(0, END)
-                password_entry.delete(0, END)
+        new_data = {
+            website:{
+                "email": username,
+                "password": password,
+            }
+        }
+        try:
+            with open("data.json", "r") as data_file:
+                data = json.load(data_file)
+                data.update(new_data)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            with open("data.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
+        finally:
+            website_entry.delete(0, END)
+            # username_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 

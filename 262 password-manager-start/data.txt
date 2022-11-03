@@ -3,3 +3,9 @@ Yuinss | Gtsyaoen | 02837492
 Twitter | oluwaaa@mail.com | zigiza1234
 Reed | warriis@mail.com | arugboooo
 Twitter | oluwaa@mail.com | 4zc(y(v4w0AQGc#)3
+{
+    "Facebook": {
+        "email": "oluwaa@mail.com",
+        "password": "*m!7xTk#1vf39E$lz"
+    }
+}
