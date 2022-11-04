@@ -6,11 +6,15 @@ import json
 
 FONT_NAME = "Times New Roman"
 ENTRY_WIDTH = 52
+
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 
 def generate_password():
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+               'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+               'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
@@ -24,6 +28,8 @@ def generate_password():
     password = "".join(password_list)
     password_entry.insert(0, password)
     pyperclip.copy(password)
+
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 
@@ -36,7 +42,7 @@ def save():
         messagebox.showinfo(title='Oops!', message='Make sure no field is empty')
     else:
         new_data = {
-            website:{
+            website: {
                 "email": username,
                 "password": password,
             }
@@ -56,6 +62,28 @@ def save():
             # username_entry.delete(0, END)
             password_entry.delete(0, END)
 
+
+# ------------------------ WEBSITE SEARCH ----------------------------- #
+
+
+def website_search():
+    website = website_entry.get()
+
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title='Oops!', message='No data file found')
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=f'{website}', message=f'Email: {email} \nPassword: {password}')
+            website_entry.delete(0, END)
+        else:
+            messagebox.showinfo(title=f'{website}', message=f'No data exist for {website}')
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -71,9 +99,12 @@ canvas.grid(column=1, row=0)
 website_label = Label(text='Website:', font=(FONT_NAME, 15))
 website_label.grid(column=0, row=1)
 
-website_entry = Entry(width=ENTRY_WIDTH)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = Entry(width=32)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
+
+website_search = Button(text='Search', width=15, command=website_search)
+website_search.grid(column=2, row=1)
 
 username_label = Label(text='Email/Username:', font=(FONT_NAME, 15))
 username_label.grid(column=0, row=2)
